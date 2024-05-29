@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Button, Text, TouchableOpacity } from "react-native";
 import Slider from "@react-native-community/slider";
-import { play, stop, getIsPlaying } from "expo-tone-generator";
+import { play, stop, getIsPlaying } from "expo-tone-synth";
 
 const notes = [
 	{ name: "C", frequency: 261.63 },
