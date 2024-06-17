@@ -1,27 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Button, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Button, Text, Pressable, TouchableOpacity } from "react-native";
 import Slider from "@react-native-community/slider";
-import { play, stop, getIsPlaying } from "expo-tone-synth";
-
-const notes = [
-	{ name: "C", frequency: 261.63 },
-	{ name: "C#", frequency: 277.18 },
-	{ name: "D", frequency: 293.66 },
-	{ name: "D#", frequency: 311.13 },
-	{ name: "E", frequency: 329.63 },
-	{ name: "F", frequency: 349.23 },
-	{ name: "F#", frequency: 369.99 },
-	{ name: "G", frequency: 392.0 },
-	{ name: "G#", frequency: 415.3 },
-	{ name: "A", frequency: 440.0 },
-	{ name: "A#", frequency: 466.16 },
-	{ name: "B", frequency: 493.88 },
-];
+import { Link } from "expo-router";
+import { play, stop, getIsPlaying, playWhiteNoise, setWhiteNoisePitch, playBrownNoise, playPinkNoise, setWhiteNoiseAmplitude } from "expo-tone-synth";
 
 export default function HomeScreen() {
 	const [frequency, setFrequencyValue] = useState(440);
 	const [isPlaying, setIsPlaying] = useState(false);
-	const [amplitudes, setAmplitudes] = useState([1.0, 0.5, 0.25]);
+	const [amplitude, setAmplitude] = useState(0.5);
 	const [adsr] = useState([0.1, 0.1, 0.7, 0.1]); // Default ADSR values
 
 	useEffect(() => {
@@ -33,11 +19,22 @@ export default function HomeScreen() {
 		checkIfPlaying();
 	}, []);
 
-	const handlePlay = async () => {
-		console.log("Playing with frequency:", frequency);
-		console.log("Playing with amplitudes:", amplitudes);
-		await play(frequency, amplitudes, adsr);
+	const handleWhiteNoise = async () => {
+		await playWhiteNoise();
 		setIsPlaying(true);
+		console.log('Playing white noise');
+	};
+
+	const handleBrownNoise = async () => {
+		await playBrownNoise();
+		setIsPlaying(true);
+		console.log('Playing brown noise');
+	};
+
+	const handlePinkNoise = async () => {
+		await playPinkNoise();
+		setIsPlaying(true);
+		console.log('Playing pink noise');
 	};
 
 	const handleStop = async () => {
@@ -46,61 +43,52 @@ export default function HomeScreen() {
 	};
 
 	const handleSetFrequency = async (newFrequency) => {
-		setFrequencyValue(newFrequency);
+		setWhiteNoisePitch(newFrequency);
 		if (isPlaying) {
-			await play(newFrequency, amplitudes, adsr);
+			await playWhiteNoise();
 		}
 	};
 
-	const handleSetAmplitude = async (index, value) => {
-		const newAmplitudes = [...amplitudes];
-		newAmplitudes[index] = value;
-		setAmplitudes(newAmplitudes);
-		console.log("Updated amplitudes:", newAmplitudes);
+	const adjustAmplitude = async (value) => {
 		if (isPlaying) {
-			await play(frequency, newAmplitudes, adsr);
+			await setWhiteNoiseAmplitude(value)
 		}
 	};
 
 	return (
 		<View style={styles.container}>
-			<View style={styles.noteButtonsContainer}>
-				{notes.map((note) => (
-					<TouchableOpacity
-						key={note.name}
-						style={styles.noteButton}
-						onPress={() => handleSetFrequency(note.frequency)}
-					>
-						<Text style={styles.noteButtonText}>{note.name}</Text>
-					</TouchableOpacity>
-				))}
-			</View>
-			<Text>Frequency: {frequency} Hz</Text>
+			{/* <Text>Frequency: {frequency} Hz</Text>
 			<Slider
 				style={styles.slider}
 				minimumValue={20}
-				maximumValue={9000}
+				maximumValue={150}
 				value={frequency}
 				onValueChange={setFrequencyValue}
 				onSlidingComplete={handleSetFrequency}
+			/> */}
+			<Text>Amplitude</Text>
+			<Slider
+				value={amplitude}
+				onValueChange={adjustAmplitude}
+				maximumValue={1}
+				minimumValue={0}
+				step={0.01}
+				style={styles.slider}
 			/>
-			<Button title="Play Tone" onPress={handlePlay} disabled={isPlaying} />
+			<Button title="Play White Noise" onPress={handleWhiteNoise} disabled={isPlaying} />
+			<Button title="Play Pink Noise" onPress={handlePinkNoise} disabled={isPlaying} />
+			<Button title="Play Brown Noise" onPress={handleBrownNoise} disabled={isPlaying} />
 			<Button title="Stop Tone" onPress={handleStop} disabled={!isPlaying} />
-			<Text>Amplitudes</Text>
-			{amplitudes.map((amplitude, index) => (
-				<View key={index} style={styles.sliderContainer}>
-					<Text>
-						Amplitude {index + 1}: {amplitude.toFixed(2)}
-					</Text>
-					<Slider
-						style={styles.slider}
-						minimumValue={0}
-						maximumValue={1}
-						value={amplitude}
-						onValueChange={(value) => handleSetAmplitude(index, value)}
-					/>
-				</View>
-			))}
+			<Link href="../(tabs)/mixer" asChild style={styles.HomeButton}>
+				<Pressable>
+					<Text style={styles.buttonText}>Mixer</Text>
+				</Pressable>
+			</Link>
+			<Link href="../(tabs)/mixer" asChild style={styles.HomeButton}>
+				<Pressable>
+					<Text style={styles.buttonText}>My Sounds</Text>
+				</Pressable>
+			</Link>
 		</View>
 	);
 }
@@ -138,5 +126,16 @@ const styles = StyleSheet.create({
 	slider: {
 		width: "100%",
 		height: 40,
+	},
+	buttonText: {
+		color: '#fff',
+		fontSize: 18,
+	},
+	HomeButton: {
+		backgroundColor: '#007AFF',
+		borderRadius: 50,
+		padding: 10,
+		color: '#fff',
+		fontSize: 18,
 	},
 });
