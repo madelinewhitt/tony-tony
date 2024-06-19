@@ -10,25 +10,25 @@ const SoundLibrary = () => {
     const [rainOff, setRainOff] = useState(true);
     const [rainOnCanopyAmplitude, setrainOnCanopyAmplitude] = useState(0.5);
     const [fanOff, setFanOff] = useState(true);
-    const [fanAmplitude, setfanAmplitude] = useState(0.25);
+    const [fanAmplitude, setfanAmplitude] = useState(0.5);
     const [thunderOff, setThunderOff] = useState(true);
-    const [thunderAmplitude, setThunderAmplitude] = useState(0.25);
+    const [thunderAmplitude, setThunderAmplitude] = useState(0.5);
     const [ACOff, setACOff] = useState(true);
-    const [ACAmplitude, setACAmplitude] = useState(0.25);
+    const [ACAmplitude, setACAmplitude] = useState(0.5);
     const [wavesOff, setWavesOff] = useState(true);
-    const [wavesAmplitude, setWAvesAmplitude] = useState(0.25);
+    const [wavesAmplitude, setWAvesAmplitude] = useState(0.5);
     const [vacuumOff, setVacuumOff] = useState(true);
-    const [vacuumAmplitude, setVacuumAmplitude] = useState(0.25);
+    const [vacuumAmplitude, setVacuumAmplitude] = useState(0.5);
     const [waterfallOff, setWaterfallOff] = useState(true);
-    const [waterfallAmplitude, setWaterfallAmplitude] = useState(0.25);
+    const [waterfallAmplitude, setWaterfallAmplitude] = useState(0.5);
     const [wetlandOff, setWetlandOff] = useState(true);
-    const [wetlandAmplitude, setWetlandAmplitude] = useState(0.25);
+    const [wetlandAmplitude, setWetlandAmplitude] = useState(0.5);
     const [rainForestOff, setRainForestOff] = useState(true);
-    const [rainForestAmplitude, setRainForestAmplitude] = useState(0.25);
+    const [rainForestAmplitude, setRainForestAmplitude] = useState(0.5);
     const [rustlingLeavesOff, setRustlingLeavesOff] = useState(true);
-    const [rustlingLeavesAmplitude, setRustlingLeavesAmplitude] = useState(0.25);
+    const [rustlingLeavesAmplitude, setRustlingLeavesAmplitude] = useState(0.5);
     const [singingBirdsOff, setSingingBirdsOff] = useState(true);
-    const [singingBirdAmplitude, setSingingBirdsAmplitude] = useState(0.25)
+    const [singingBirdAmplitude, setSingingBirdsAmplitude] = useState(0.5)
 
     const rainOnForestCanopy = async () => {
         await playSoundFromURL('https://pub-aa8746cea6d14e08ad052f51cb88797d.r2.dev/stability-ai%2Frain-on-a-forest-canopy.mp3');
