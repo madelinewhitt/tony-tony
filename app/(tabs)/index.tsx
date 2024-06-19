@@ -42,13 +42,6 @@ export default function HomeScreen() {
 		setIsPlaying(false);
 	};
 
-	const handleSetFrequency = async (newFrequency) => {
-		setWhiteNoisePitch(newFrequency);
-		if (isPlaying) {
-			await playWhiteNoise();
-		}
-	};
-
 	const adjustAmplitude = async (value) => {
 		if (isPlaying) {
 			await setWhiteNoiseAmplitude(value)
@@ -57,15 +50,6 @@ export default function HomeScreen() {
 
 	return (
 		<View style={styles.container}>
-			{/* <Text>Frequency: {frequency} Hz</Text>
-			<Slider
-				style={styles.slider}
-				minimumValue={20}
-				maximumValue={150}
-				value={frequency}
-				onValueChange={setFrequencyValue}
-				onSlidingComplete={handleSetFrequency}
-			/> */}
 			<Text>Amplitude</Text>
 			<Slider
 				value={amplitude}
@@ -79,7 +63,7 @@ export default function HomeScreen() {
 			<Button title="Play Pink Noise" onPress={handlePinkNoise} disabled={isPlaying} />
 			<Button title="Play Brown Noise" onPress={handleBrownNoise} disabled={isPlaying} />
 			<Button title="Stop Tone" onPress={handleStop} disabled={!isPlaying} />
-			<Link href="../(tabs)/mixer" asChild style={styles.HomeButton}>
+			<Link href="../(tabs)/sound-library" asChild style={styles.HomeButton}>
 				<Pressable>
 					<Text style={styles.buttonText}>Mixer</Text>
 				</Pressable>
